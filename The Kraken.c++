@@ -1,8 +1,8 @@
 #include <iostream>
 #include <time.h>
 #include <stdlib.h>
-#include <windows.h>
-#include <mmsystem.h>
+//#include <windows.h>
+//#include <mmsystem.h>
 using namespace std;
 string CLS = "\033[2J\033[1;1H";
 string Red = "\033[31;1m";
@@ -122,8 +122,8 @@ int main()
 {
 
     srand(time(NULL));
-    mciSendString("open TheLimitsOfTheCosmos.wav alias MY_SND3", NULL, 0, NULL);
-    mciSendString("play MY_SND3", NULL, 0, NULL);
+   // mciSendString("open TheLimitsOfTheCosmos.wav alias MY_SND3", NULL, 0, NULL);
+    //mciSendString("play MY_SND3", NULL, 0, NULL);
     //step 1 - intro screen
     IntroScreen();
     cout<<"\nSave the world from the planet eating kraken...\n";

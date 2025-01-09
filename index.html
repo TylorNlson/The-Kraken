@@ -76,6 +76,11 @@
     function restartGame() {
         document.getElementById('resultScreen').style.display = 'none';
         document.getElementById('introScreen').style.display = 'block';
+        document.getElementById('phraseToGuess').innerText = '';
+        document.getElementById('lettersRemaining').innerText = '';
+        document.getElementById('hitpoints').innerText = '';
+        document.getElementById('letterInput').value = '';
+        startGame();
     }
 </script>
 </body>

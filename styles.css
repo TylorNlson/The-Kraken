@@ -1,19 +1,4 @@
-#introScreen {
-    background-image: url('images/FrontPage.jpg');
-    background-size: cover;
-    background-position: center;
-    height: 100vh; /* Make sure the background covers the full viewport height */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
 
-#introScreen > h1, #introScreen > button {
-    background-color: rgba(255, 255, 255, 0.8); /* White background with some transparency */
-    padding: 20px;
-    border-radius: 10px;
-}
 /* styles.css */
 body {
     font-family: Arial, sans-serif;

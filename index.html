@@ -24,64 +24,79 @@
         </div>
     </div>
 
-<script>
-    let phrases = ["to thyself be true", "fit as a fiddle", "good guys always win", "just drink more coffee", "cat in a hat"];
-    let secretPhrase, guessPhrase, badGuesses, lettersRemaining;
-
-    function startGame() {
-        document.getElementById('introScreen').style.display = 'none';
-        document.body.style.backgroundColor = '#f4f4f4';  // Change background to white
-        document.getElementById('gameScreen').style.display = 'block';
-        initializeGame();
-    }
-
-    function initializeGame() {
-        secretPhrase = phrases[Math.floor(Math.random() * phrases.length)];
-        guessPhrase = secretPhrase.replace(/[^ ]/g, '.');
-        badGuesses = 0;
-        lettersRemaining = "abcdefghijklmnopqrstuvwxyz";
-        updateGameScreen();
-    }
-
-    function updateGameScreen() {
-        document.getElementById('phraseToGuess').innerText = `Phrase to guess: ${guessPhrase}`;
-        document.getElementById('lettersRemaining').innerText = `Letters Remaining: ${lettersRemaining}`;
-        document.getElementById('hitpoints').innerText = `Hitpoints: ${60 - badGuesses * 10}/60`;
-    }
-
-    function guessLetter() {
-        let letter = document.getElementById('letterInput').value.toLowerCase();
-        document.getElementById('letterInput').value = '';
-        if (lettersRemaining.includes(letter)) {
-            lettersRemaining = lettersRemaining.replace(letter, ' ');
-            if (secretPhrase.includes(letter)) {
-                let regex = new RegExp(letter, 'g');
-                guessPhrase = guessPhrase.split('').map((char, index) => secretPhrase[index] === letter ? letter : char).join('');
-            } else {
-                badGuesses++;
+    <script>
+        let phrases = [];
+        let secretPhrase, guessPhrase, badGuesses, lettersRemaining;
+    
+        async function fetchPhrases() {
+            try {
+                const response = await fetch('https://api.datamuse.com/words?ml=phrase&max=10');
+                const data = await response.json();
+                phrases = data.map(item => item.word);
+            } catch (error) {
+                console.error("Error fetching phrases:", error);
+                phrases = ["to thyself be true", "fit as a fiddle", "good guys always win", "just drink more coffee", "cat in a hat"];
             }
+        }
+    
+        async function initializeGame() {
+            if (phrases.length === 0) {
+                await fetchPhrases();
+            }
+            secretPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+            guessPhrase = secretPhrase.replace(/[^ ]/g, '.');
+            badGuesses = 0;
+            lettersRemaining = "abcdefghijklmnopqrstuvwxyz";
             updateGameScreen();
-            checkGameOver();
         }
-    }
-
-    function checkGameOver() {
-        if (guessPhrase === secretPhrase || badGuesses === 6) {
-            document.getElementById('gameScreen').style.display = 'none';
-            document.getElementById('resultScreen').style.display = 'block';
-            document.getElementById('resultMessage').innerText = guessPhrase === secretPhrase ? "Congratulations... You saved the world." : "We're doomed. You were Humanity's last hope...";
+    
+        async function startGame() {
+            document.getElementById('introScreen').style.display = 'none';
+            document.body.style.backgroundColor = '#f4f4f4';
+            document.getElementById('gameScreen').style.display = 'block';
+            document.getElementById('phraseToGuess').innerText = "Loading phrase...";
+            await initializeGame();
         }
-    }
-
-    function restartGame() {
-        document.getElementById('resultScreen').style.display = 'none';
-        document.getElementById('introScreen').style.display = 'block';
-        document.getElementById('phraseToGuess').innerText = '';
-        document.getElementById('lettersRemaining').innerText = '';
-        document.getElementById('hitpoints').innerText = '';
-        document.getElementById('letterInput').value = '';
-        startGame();
-    }
-</script>
+    
+        function updateGameScreen() {
+            document.getElementById('phraseToGuess').innerText = `Phrase to guess: ${guessPhrase}`;
+            document.getElementById('lettersRemaining').innerText = `Letters Remaining: ${lettersRemaining}`;
+            document.getElementById('hitpoints').innerText = `Hitpoints: ${60 - badGuesses * 10}/60`;
+        }
+    
+        function guessLetter() {
+            let letter = document.getElementById('letterInput').value.toLowerCase();
+            document.getElementById('letterInput').value = '';
+            if (lettersRemaining.includes(letter)) {
+                lettersRemaining = lettersRemaining.replace(letter, ' ');
+                if (secretPhrase.includes(letter)) {
+                    let regex = new RegExp(letter, 'g');
+                    guessPhrase = guessPhrase.split('').map((char, index) => secretPhrase[index] === letter ? letter : char).join('');
+                } else {
+                    badGuesses++;
+                }
+                updateGameScreen();
+                checkGameOver();
+            }
+        }
+    
+        function checkGameOver() {
+            if (guessPhrase === secretPhrase || badGuesses === 6) {
+                document.getElementById('gameScreen').style.display = 'none';
+                document.getElementById('resultScreen').style.display = 'block';
+                document.getElementById('resultMessage').innerText = guessPhrase === secretPhrase ? "Congratulations... You saved the world." : "We're doomed. You were Humanity's last hope...";
+            }
+        }
+    
+        function restartGame() {
+            document.getElementById('resultScreen').style.display = 'none';
+            document.getElementById('introScreen').style.display = 'block';
+            document.getElementById('phraseToGuess').innerText = '';
+            document.getElementById('lettersRemaining').innerText = '';
+            document.getElementById('hitpoints').innerText = '';
+            document.getElementById('letterInput').value = '';
+            startGame();
+        }
+    </script>
 </body>
 </html>

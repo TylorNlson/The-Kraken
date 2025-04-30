@@ -1,2 +1,2 @@
-# The-Kraken
+# MystiQ
 Interactive C++ game

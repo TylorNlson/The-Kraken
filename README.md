@@ -1,2 +1,2 @@
 # MystiQ
-Developed an interactive browser-based word-guessing game using HTML, CSS, and JavaScript. The game dynamically fetches random phrases from an external API and challenges players to guess the phrase within a limited number of attempts. The original game was a C++ terminal-based game interface featuring animated ASCII art screens for win/loss states and an introductory splash screen, incorporating ANSI escape codes for color effects and user interaction.
+Developed an interactive browser-based word-guessing game using HTML, C++, and JavaScript. The game dynamically fetches random phrases from an external API and challenges players to guess the phrase within a limited number of attempts. 
